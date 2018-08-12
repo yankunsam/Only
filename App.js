@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {AppState,Platform, StyleSheet, Text, View, Button} from 'react-native';
 import nodejs from 'nodejs-mobile-react-native';
 
 const instructions = Platform.select({
@@ -18,10 +18,47 @@ const instructions = Platform.select({
 });
 
 type Props = {};
-export default class App extends Component<Props> {
+export default class App extends Component<{}> {
+  constructor(props){
+    super(props);
+    this.state = { lastNodeMessage: 'No message yet.' };
+    this.listenerRef = null;
+  }
+  componentWillMount()
+  {
+    nodejs.start('main.js');
+    this.listenerRef = ((msg) => {
+      this.setState({lastNodeMessage: msg});
+    });
+    nodejs.channel.addListener(
+      'message',
+      this.listenerRef,
+      this
+    );
+  }
+  componentWillUnmount()
+  {
+    if (this.listenerRef) {
+      nodejs.channel.removeListener('message', this.listenerRef);
+    }
+  }
+  componentDidMount(){
+    AppState.addEventListener('change', (state) => {
+      if (state === 'active') {
+        nodejs.channel.send('resume');
+      }
+      if (state === 'background') {
+        nodejs.channel.send('suspend');
+      }
+    });
+  }
   render() {
     return (
       <View style={styles.container}>
+      <Button title="Get Versions"
+          onPress={() => nodejs.channel.send('Yankun')}
+        />
+        <Text style={styles.instructions}>{this.state.lastNodeMessage}</Text>
         <Text style={styles.welcome}>Welcome to React Native!</Text>
         <Text style={styles.instructions}>To get started, edit App.js</Text>
         <Text style={styles.instructions}>{instructions}</Text>
