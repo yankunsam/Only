@@ -56,7 +56,7 @@ export default class App extends Component<{}> {
     return (
       <View style={styles.container}>
       <Button title="Get Versions"
-          onPress={() => nodejs.channel.send('Yankun')}
+          onPress={() => nodejs.channel.send('versions')}
         />
         <Text style={styles.instructions}>{this.state.lastNodeMessage}</Text>
         <Text style={styles.welcome}>Welcome to React Native!</Text>
