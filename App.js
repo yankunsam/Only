@@ -55,13 +55,13 @@ export default class App extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
-      <Button title="Get Versions"
+      <Button title="由eosio.token 发送eosio 100.0000 EOS"
           onPress={() => nodejs.channel.send('versions')}
         />
+      <Button title="账户"
+          onPress={() => nodejs.channel.send('blocks')}
+        />
         <Text style={styles.instructions}>{this.state.lastNodeMessage}</Text>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
       </View>
     );
   }
