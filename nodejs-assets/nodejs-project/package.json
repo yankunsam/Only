@@ -11,6 +11,7 @@
   "license": "",
   "dependencies": {
     "http": "^0.0.0",
+    "mongodb": "^3.1.1",
     "oasisjs": "^1.0.6"
   }
 }
