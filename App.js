@@ -7,28 +7,23 @@
  */
 
 import React, {Component} from 'react';
-import {AppState,Platform, StyleSheet, Text, View, Button} from 'react-native';
+import {AppState,Platform, StyleSheet, Text, View, Button,TextInput} from 'react-native';
 import nodejs from 'nodejs-mobile-react-native';
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
 
 type Props = {};
 export default class App extends Component<{}> {
   constructor(props){
     super(props);
-    this.state = { lastNodeMessage: 'No message yet.' };
+    this.state = { lastNodeMessage: 'No message yet.',text: '' ,balanceNow: '0.0000 EOS'};
     this.listenerRef = null;
   }
   componentWillMount()
   {
     nodejs.start('main.js');
-    this.listenerRef = ((msg) => {
-      this.setState({lastNodeMessage: msg});
+    this.listenerRef = ((rel) => {
+      // var temp = JSON.parse(rel).amount;
+      this.setState({lastNodeMessage: rel});
+      // this.setState({lastNodeMessage: rel.lastNodeMessage,balanceNow: rel.balanceNow});
     });
     nodejs.channel.addListener(
       'message',
@@ -42,16 +37,6 @@ export default class App extends Component<{}> {
       nodejs.channel.removeListener('message', this.listenerRef);
     }
   }
-  componentDidMount(){
-    AppState.addEventListener('change', (state) => {
-      if (state === 'active') {
-        nodejs.channel.send('resume');
-      }
-      if (state === 'background') {
-        nodejs.channel.send('suspend');
-      }
-    });
-  }
   render() {
     return (
       <View style={styles.container}>
@@ -61,7 +46,11 @@ export default class App extends Component<{}> {
       <Button title="账户"
           onPress={() => nodejs.channel.send('blocks')}
         />
+        <Button title="余额"
+            onPress={() => nodejs.channel.send('eos')}
+          />
         <Text style={styles.instructions}>{this.state.lastNodeMessage}</Text>
+        <Text style={styles.instructions}>{this.state.balanceNow}</Text>
       </View>
     );
   }
