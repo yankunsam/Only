@@ -22,16 +22,7 @@ eos = Eos(config)
 // Echo every message received from react-native.
 rn_bridge.channel.on('message', (msg) => {
   switch(msg) {
-    case 'versions':
-      // eos.getInfo((error,result) => {
-      //     msg_number++;
-      //     rn_bridge.channel.send(
-      //       'This is message number ' +
-      //       msg_number +
-      //       '. Versions: ' +
-      //       JSON.stringify(result.head_block_num)
-      //     );
-      //   })
+    case 'transfer':
       transferPara = {
         "from": 'eosio.token',
         "to": 'eosio',
@@ -39,19 +30,10 @@ rn_bridge.channel.on('message', (msg) => {
         "memo": 'by react native'
       };
       eos.transfer(transferPara,(error,result)=>{
-        balance = {
-          'code': 'eosio.token',
-          'account': 'eosio.token',
-          'symbol': 'EOS'
+        if (error) {
+          throw error;
         }
-        eos.getCurrencyBalance(balance,(error,result) => {
-          rel = {
-            amount: result[0]
-          };
-          var tem = JSON.stringify(rel)
-          rn_bridge.channel.send(result[0])
-        })
-      })
+      });
       break;
     case 'suspend':
       listVersionsHTTPServer.close();
@@ -63,11 +45,14 @@ rn_bridge.channel.on('message', (msg) => {
     case 'balance':
       balance = {
         'code': 'eosio.token',
-        'account': account,
+        'account': 'eosio.token',
         'symbol': 'EOS'
       }
       eos.getCurrencyBalance(balance,(error,result) => {
-      rn_bridge.channel.send(result)
+        var rel = {
+          balanceNow: result[0]
+        };
+        rn_bridge.channel.send(JSON.stringify(rel));
     })
       break;
     case 'blocks':
@@ -81,8 +66,7 @@ rn_bridge.channel.on('message', (msg) => {
             throw err
           }
           var rel = {
-            lastNodeMessage: 'hello msg',
-            balanceNow: '1.090 EOS'
+            account: '第一个账户',
           };
           var temp = JSON.stringify(rel);
           console.log(temp);
@@ -97,4 +81,7 @@ rn_bridge.channel.on('message', (msg) => {
   }
 });
 // Inform react-native node is initialized.
-rn_bridge.channel.send('Node was initialized.','the second !');
+var init = {
+  lastNodeMessage: 'Node was initialized.'
+};
+rn_bridge.channel.send(JSON.stringify(init));

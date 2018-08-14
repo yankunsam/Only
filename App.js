@@ -14,16 +14,14 @@ type Props = {};
 export default class App extends Component<{}> {
   constructor(props){
     super(props);
-    this.state = { lastNodeMessage: 'No message yet.',text: '' ,balanceNow: '0.0000 EOS'};
+    this.state = { account: '账户为空', balanceNow: '0.0000 EOS'};
     this.listenerRef = null;
   }
   componentWillMount()
   {
     nodejs.start('main.js');
     this.listenerRef = ((rel) => {
-      // var temp = JSON.parse(rel).amount;
-      this.setState({lastNodeMessage: rel});
-      // this.setState({lastNodeMessage: rel.lastNodeMessage,balanceNow: rel.balanceNow});
+      this.setState(JSON.parse(rel));
     });
     nodejs.channel.addListener(
       'message',
@@ -41,15 +39,15 @@ export default class App extends Component<{}> {
     return (
       <View style={styles.container}>
       <Button title="由eosio.token 发送eosio 100.0000 EOS"
-          onPress={() => nodejs.channel.send('versions')}
+          onPress={() => nodejs.channel.send('transfer')}
         />
       <Button title="账户"
           onPress={() => nodejs.channel.send('blocks')}
         />
         <Button title="余额"
-            onPress={() => nodejs.channel.send('eos')}
+            onPress={() => nodejs.channel.send('balance')}
           />
-        <Text style={styles.instructions}>{this.state.lastNodeMessage}</Text>
+        <Text style={styles.instructions}>{this.state.account}</Text>
         <Text style={styles.instructions}>{this.state.balanceNow}</Text>
       </View>
     );
