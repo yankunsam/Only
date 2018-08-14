@@ -11,6 +11,7 @@ import {AppState,Platform, StyleSheet, Text, View, Button,TextInput, Alert} from
 import nodejs from 'nodejs-mobile-react-native';
 import { TabNavigator } from 'react-navigation';
 import Transfer from './Transfer.js';
+import Setting from './Setting.js';
 
 type Props = {};
 
@@ -18,7 +19,7 @@ type Props = {};
 class HomeScreen extends Component<{}> {
   constructor(props){
     super(props);
-    this.state = { account: '账户为空', balance: '0.0000 EOS', accountName: '', from: '', to: '', memo: '','quantity':''};
+    this.state = { account: '账户为空', balanceNow: '0.0000 EOS', accountName: '', from: '', to: '', memo: '','quantity':''};
     this.listenerRef = null;
   }
   componentWillMount()
@@ -48,7 +49,7 @@ class HomeScreen extends Component<{}> {
         />
         <Button title="余额"
             onPress={() => {
-              Alert.alert('获取余额');
+              Alert.alert('获取余额,请确认网络是否连接');
               var balanceObj = {
                 'category': 'balance',
                 'account': this.state.accountName
@@ -57,7 +58,7 @@ class HomeScreen extends Component<{}> {
               }
             }
           />
-          <Text style={styles.instructions}>{this.state.account}</Text>
+          <Text style={styles.instructions}>{this.state.accountName}</Text>
           <Text style={styles.instructions}>{this.state.balanceNow}</Text>
       </View>
     );
@@ -69,6 +70,7 @@ class HomeScreen extends Component<{}> {
 export default TabNavigator({
   Home: { screen: HomeScreen},
   Transfer: { screen: Transfer },
+  Setting: { screen: Setting },
 });
 
 const styles = StyleSheet.create({
