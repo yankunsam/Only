@@ -14,7 +14,7 @@ type Props = {};
 export default class App extends Component<{}> {
   constructor(props){
     super(props);
-    this.state = { account: '账户为空', balanceNow: '0.0000 EOS', accountName: '', from: '', to: '', memo: ''};
+    this.state = { account: '账户为空', balanceNow: '0.0000 EOS', accountName: '', from: '', to: '', memo: '','quantity':''};
     this.listenerRef = null;
   }
   componentWillMount()
@@ -38,15 +38,19 @@ export default class App extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
-      <TextInput style={{height: 40}}
+      <TextInput style={{height: 40,width: 100}}
       placeholder="付款方"
       onChangeText={(from) => this.setState({from: from})}
       />
-      <TextInput style={{height: 40}}
+      <TextInput style={{height: 40,width: 100}}
       placeholder="收款方"
       onChangeText={(to) => this.setState({to: to})}
       />
-      <TextInput style={{height: 40}}
+      <TextInput style={{height: 40,width: 100}}
+      placeholder="1.0000 EOS"
+      onChangeText={(quantity) => this.setState({quantity: quantity})}
+      />
+      <TextInput style={{height: 40,width: 100}}
       placeholder="备注"
       onChangeText={(memo) => this.setState({memo: memo})}
       />
@@ -55,7 +59,7 @@ export default class App extends Component<{}> {
             var transObj = {
               'category': 'transfer',
               'from': this.state.from,
-              'quantity': '100.0000 EOS',
+              'quantity': this.state.quantity,
               'to': this.state.to,
               'memo': this.state.memo
             };
@@ -63,7 +67,7 @@ export default class App extends Component<{}> {
           }
         }
         />
-        <TextInput style={{height: 40}}
+        <TextInput style={{height: 40,width: 100}}
         placeholder="请输入账户名"
         onChangeText={(account) => this.setState({accountName: account})}
         />
