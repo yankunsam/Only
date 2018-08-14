@@ -14,7 +14,7 @@ type Props = {};
 export default class App extends Component<{}> {
   constructor(props){
     super(props);
-    this.state = { account: '账户为空', balanceNow: '0.0000 EOS'};
+    this.state = { account: '账户为空', balanceNow: '0.0000 EOS', accountName: '', from: '', to: '', memo: ''};
     this.listenerRef = null;
   }
   componentWillMount()
@@ -38,17 +38,40 @@ export default class App extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
-      <Button title="由eosio.token 发送eosio 100.0000 EOS"
-          onPress={() => nodejs.channel.send('transfer')}
+      <TextInput style={{height: 40}}
+      placeholder="付款方"
+      onChangeText={(from) => this.setState({from: from})}
+      />
+      <TextInput style={{height: 40}}
+      placeholder="收款方"
+      onChangeText={(to) => this.setState({to: to})}
+      />
+      <TextInput style={{height: 40}}
+      placeholder="备注"
+      onChangeText={(memo) => this.setState({memo: memo})}
+      />
+      <Button title="转账"
+          onPress={ () => {
+            var transObj = {
+              'category': 'transfer',
+              'from': this.state.from,
+              'quantity': '100.0000 EOS',
+              'to': this.state.to,
+              'memo': this.state.memo
+            };
+            nodejs.channel.send(JSON.stringify(transObj))
+          }
+        }
         />
-      <Button title="账户"
-          onPress={() => nodejs.channel.send('blocks')}
+        <TextInput style={{height: 40}}
+        placeholder="请输入账户名"
+        onChangeText={(account) => this.setState({accountName: account})}
         />
         <Button title="余额"
             onPress={() => {
               var balanceObj = {
                 'category': 'balance',
-                'account': 'eosio'
+                'account': this.state.accountName
               };
               nodejs.channel.send(JSON.stringify(balanceObj))
               }

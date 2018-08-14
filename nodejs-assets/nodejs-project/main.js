@@ -17,17 +17,16 @@ var config = {
   sign: true
 };
 eos = Eos(config)
-
-
 // Echo every message received from react-native.
 rn_bridge.channel.on('message', (msg) => {
-  switch(JSON.parse(msg).category) {
+  var obj = JSON.parse(msg);
+  switch(obj.category) {
     case 'transfer':
       transferPara = {
-        "from": 'eosio.token',
-        "to": 'eosio',
-        "quantity": '100.0000 EOS',
-        "memo": 'by react native'
+        "from": JSON.parse(msg).from,
+        "to": JSON.parse(msg).to,
+        "quantity": JSON.parse(msg).quantity,
+        "memo": JSON.parse(msg).memo
       };
       eos.transfer(transferPara,(error,result)=>{
         if (error) {
@@ -53,7 +52,7 @@ rn_bridge.channel.on('message', (msg) => {
           balanceNow: result[0]
         };
         rn_bridge.channel.send(JSON.stringify(rel));
-    })
+      })
       break;
     case 'blocks':
       MongoClient.connect(mongodburl, function(err, db) {
@@ -79,6 +78,7 @@ rn_bridge.channel.on('message', (msg) => {
     default:
       break;
   }
+
 });
 // Inform react-native node is initialized.
 var init = {
