@@ -21,7 +21,7 @@ eos = Eos(config)
 
 // Echo every message received from react-native.
 rn_bridge.channel.on('message', (msg) => {
-  switch(msg) {
+  switch(JSON.parse(msg).category) {
     case 'transfer':
       transferPara = {
         "from": 'eosio.token',
@@ -45,7 +45,7 @@ rn_bridge.channel.on('message', (msg) => {
     case 'balance':
       balance = {
         'code': 'eosio.token',
-        'account': 'eosio.token',
+        'account': JSON.parse(msg).account,
         'symbol': 'EOS'
       }
       eos.getCurrencyBalance(balance,(error,result) => {

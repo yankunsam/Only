@@ -45,7 +45,14 @@ export default class App extends Component<{}> {
           onPress={() => nodejs.channel.send('blocks')}
         />
         <Button title="余额"
-            onPress={() => nodejs.channel.send('balance')}
+            onPress={() => {
+              var balanceObj = {
+                'category': 'balance',
+                'account': 'eosio'
+              };
+              nodejs.channel.send(JSON.stringify(balanceObj))
+              }
+            }
           />
         <Text style={styles.instructions}>{this.state.account}</Text>
         <Text style={styles.instructions}>{this.state.balanceNow}</Text>
