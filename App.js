@@ -7,11 +7,12 @@
  */
 
 import React, {Component} from 'react';
-import {AppState,Platform, StyleSheet, Text, View, Button,TextInput} from 'react-native';
+import {AppState,Platform, StyleSheet, Text, View, Button,TextInput, Alert} from 'react-native';
 import nodejs from 'nodejs-mobile-react-native';
+import { TabNavigator } from 'react-navigation';
 
 type Props = {};
-export default class App extends Component<{}> {
+class HomeScreen extends Component<{}> {
   constructor(props){
     super(props);
     this.state = { account: '账户为空', balanceNow: '0.0000 EOS', accountName: '', from: '', to: '', memo: '','quantity':''};
@@ -64,15 +65,17 @@ export default class App extends Component<{}> {
               'memo': this.state.memo
             };
             nodejs.channel.send(JSON.stringify(transObj))
+            Alert.alert('转账成功？');
           }
         }
         />
-        <TextInput style={{height: 40,width: 100}}
+        <TextInput style={{height: 40,width: 100, backgroundColor: 'skyblue'}}
         placeholder="请输入账户名"
         onChangeText={(account) => this.setState({accountName: account})}
         />
         <Button title="余额"
             onPress={() => {
+              Alert.alert('获取余额');
               var balanceObj = {
                 'category': 'balance',
                 'account': this.state.accountName
@@ -81,8 +84,8 @@ export default class App extends Component<{}> {
               }
             }
           />
-        <Text style={styles.instructions}>{this.state.account}</Text>
-        <Text style={styles.instructions}>{this.state.balanceNow}</Text>
+          <Text style={styles.instructions}>{this.state.account}</Text>
+          <Text style={styles.instructions}>{this.state.balanceNow}</Text>
       </View>
     );
   }
@@ -104,5 +107,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+    flex: 1
   },
+});
+class Setting extends Component {
+  render() {
+    return (
+      <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text> You EOS node configuration</Text>
+      </View>
+    );
+  }
+}
+
+export default TabNavigator({
+  Home: { screen: HomeScreen},
+  Settings: { screen: Setting },
 });

@@ -10,6 +10,7 @@
     "nodejs-mobile-react-native": "^0.2.1",
     "react": "16.4.1",
     "react-native": "0.56.0",
+    "react-navigation": "^2.11.2",
     "uglify-es": "3.2.2"
   },
   "devDependencies": {
@@ -22,6 +23,6 @@
     "preset": "react-native"
   },
   "resolutions": {
-  "uglify-es": "3.2.2"
-}
+    "uglify-es": "3.2.2"
+  }
 }
