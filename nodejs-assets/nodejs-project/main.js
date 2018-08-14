@@ -23,10 +23,10 @@ rn_bridge.channel.on('message', (msg) => {
   switch(obj.category) {
     case 'transfer':
       transferPara = {
-        "from": JSON.parse(msg).from,
-        "to": JSON.parse(msg).to,
-        "quantity": JSON.parse(msg).quantity,
-        "memo": JSON.parse(msg).memo
+        "from": obj.from,
+        "to": obj.to,
+        "quantity": obj.quantity,
+        "memo": obj.memo
       };
       eos.transfer(transferPara,(error,result)=>{
         if (error) {
