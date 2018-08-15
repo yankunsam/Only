@@ -32,21 +32,27 @@ export default class Setting extends Component<{}> {
   }
   render() {
     return(
-      <View>
-      <View>
-      <Text>节点配置: </Text>
-      <TextInput style={{height: 40,width: 100}}
+      <View style={styles.container}>
+      <View style={styles.container}>
+      <TextInput style={{height: 40,width: 100,textBreakStrategy: 'balanced'}}
       placeholder="httpEndpoint"
       onChangeText={(httpEndpoint) => this.setState({httpEndpoint: httpEndpoint})}
       />
+      </View>
+
+      <View style={styles.container}>
       <TextInput style={{height: 40,width: 100}}
       placeholder="私钥"
       onChangeText={(privateKey) => this.setState({privateKey: privateKey})}
       />
+      </View>
+      <View style={styles.container}>
       <TextInput style={{height: 40,width: 100}}
       placeholder="ChainId"
       onChangeText={(chainId) => this.setState({chainId: chainId})}
       />
+      </View>
+      <View style={styles.container}>
       <Button title="配置"
         onPress={
           () => {
@@ -66,3 +72,22 @@ export default class Setting extends Component<{}> {
     );
   }
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#c9c7c7',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+    flex: 1
+  },
+});

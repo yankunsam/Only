@@ -57,10 +57,13 @@ class HomeScreen extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
+      <View style={styles.container}>
         <TextInput style={{height: 40,width: 100}}
         placeholder="请输入账户名"
         onChangeText={(account) => this.setState({accountName: account})}
         />
+        </View>
+        <View style={styles.container}>
         <Button title="余额查询"
             onPress={() => {
               Alert.alert('获取余额,请确认网络是否连接');
@@ -72,8 +75,14 @@ class HomeScreen extends Component<{}> {
               }
             }
           />
+          </View>
+          <View style={styles.container}>
           <Text style={styles.instructions}>{this.state.accountName}</Text>
+          </View>
+          <View style={styles.container}>
           <Text style={styles.instructions}>{this.state.balanceNow}</Text>
+          </View>
+          <View style={styles.container}>
           <Button title="区块浏览"
           onPress={ () => {
             var blockObj = {
@@ -84,9 +93,18 @@ class HomeScreen extends Component<{}> {
 
           }
           />
+          </View>
+          <View style={styles.container}>
+          </View>
+          <View style={styles.container}>
           <Text style={styles.instructions}><Text>区块总数: </Text>{this.state.blockAmount}</Text>
+          </View>
+          <View style={styles.container}>
           <Text style={styles.instructions}><Text>账户总数: </Text>{this.state.accountAmount}</Text>
+          </View>
+          <View style={styles.container}>
           <Text style={styles.instructions}><Text>交易总数: </Text>{this.state.transactionAmount}</Text>
+          </View>
       </View>
     );
   }

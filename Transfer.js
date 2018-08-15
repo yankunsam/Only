@@ -29,23 +29,33 @@ export default class Transfer extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
+      <View style={styles.container}>
       <TextInput style={{height: 40,width: 100}}
       placeholder="付款方"
       onChangeText={(from) => this.setState({from: from})}
       />
+      </View>
+      <View style={styles.container}>
       <TextInput style={{height: 40,width: 100}}
       placeholder="收款方"
       onChangeText={(to) => this.setState({to: to})}
       />
+      </View>
+      <View style={styles.container}>
       <TextInput style={{height: 40,width: 100}}
       placeholder="1.0000 EOS"
       onChangeText={(quantity) => this.setState({quantity: quantity})}
       />
+      </View>
+      <View style={styles.container}>
       <TextInput style={{height: 40,width: 100}}
       placeholder="备注"
       onChangeText={(memo) => this.setState({memo: memo})}
       />
-      <Button title="转账"
+      </View>
+      <View style={styles.container}>
+      <Button  title="转账"
+          style={{fontSize: 50, color: 'green'}}
           onPress={ () => {
             var transObj = {
               'category': 'transfer',
@@ -59,6 +69,7 @@ export default class Transfer extends Component<{}> {
           }
         }
         />
+        </View>
       </View>
     );
   }
