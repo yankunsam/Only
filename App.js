@@ -19,12 +19,12 @@ type Props = {};
 class HomeScreen extends Component<{}> {
   constructor(props){
     super(props);
-    this.state = { account: '账户为空', balanceNow: '0.0000 EOS', accountName: '', from: '', to: '', memo: '','quantity':''};
+    this.state = { account: '账户为空', balanceNow: '0.0000 EOS', accountName: '', from: '', to: '', memo: '','quantity':'',chainId: 'c40a90d6bcb4b9b2c2d4c0916ee97a29af42a420372af44fa4f538ddef9e6b83'};
     this.listenerRef = null;
   }
   componentWillMount()
   {
-    // nodejs.start('second.js');
+    nodejs.start('main.js');
     this.listenerRef = ((rel) => {
       this.setState(JSON.parse(rel));
     });
