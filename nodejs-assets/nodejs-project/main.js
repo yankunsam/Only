@@ -75,25 +75,46 @@ rn_bridge.channel.on('message', (msg) => {
         rn_bridge.channel.send(JSON.stringify(rel));
       })
       break;
-    case 'blocks':
+    case 'block':
       MongoClient.connect(mongodburl, function(err, db) {
         if (err) {
           throw err
         }
         var dbo = db.db('EOS')
-        dbo.collection('accounts').find({}).toArray((err, result) => {
+        dbo.collection('blocks').count({},(err, numDocs) => {
           if(err) {
             throw err
           }
           var rel = {
-            account: '第一个账户',
+            blockAmount: numDocs,
           };
-          var temp = JSON.stringify(rel);
-          console.log(temp);
-          rn_bridge.channel.send(temp);
+          rn_bridge.channel.send(JSON.stringify(rel));
           db.close()
 
-        })
+        });
+        dbo.collection('accounts').count({},(err, numDocs) => {
+          if(err) {
+            throw err
+          }
+          var rel = {
+            accountAmount: numDocs,
+          };
+          rn_bridge.channel.send(JSON.stringify(rel));
+          db.close()
+
+        });
+        dbo.collection('transactions').count({},(err, numDocs) => {
+          if(err) {
+            throw err
+          }
+          var rel = {
+            transactionAmount: numDocs,
+          };
+          rn_bridge.channel.send(JSON.stringify(rel));
+          db.close()
+
+        });
+
       })
       break;
     default:

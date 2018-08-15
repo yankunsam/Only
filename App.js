@@ -19,7 +19,20 @@ type Props = {};
 class HomeScreen extends Component<{}> {
   constructor(props){
     super(props);
-    this.state = { account: '账户为空', balanceNow: '0.0000 EOS', accountName: '', from: '', to: '', memo: '','quantity':'',chainId: 'c40a90d6bcb4b9b2c2d4c0916ee97a29af42a420372af44fa4f538ddef9e6b83'};
+    this.state = {
+      account: '账户为空',
+      balanceNow: '0.0000 EOS',
+      accountName: '',
+      from: '',
+      to: '',
+      memo: '',
+      quantity:'',
+      chainId: 'c40a90d6bcb4b9b2c2d4c0916ee97a29af42a420372af44fa4f538ddef9e6b83',
+      blockAmount: 0,
+      accountAmount: 0,
+      transactionAmount: 0,
+
+    };
     this.listenerRef = null;
   }
   componentWillMount()
@@ -43,23 +56,36 @@ class HomeScreen extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
-        <TextInput style={{height: 40,width: 100, backgroundColor: 'skyblue'}}
+        <TextInput style={{height: 40,width: 100}}
         placeholder="请输入账户名"
         onChangeText={(account) => this.setState({accountName: account})}
         />
-        <Button title="余额"
+        <Button title="余额查询"
             onPress={() => {
               Alert.alert('获取余额,请确认网络是否连接');
               var balanceObj = {
                 'category': 'balance',
                 'account': this.state.accountName
               };
-              nodejs.channel.send(JSON.stringify(balanceObj))
+              nodejs.channel.send(JSON.stringify(balanceObj));
               }
             }
           />
           <Text style={styles.instructions}>{this.state.accountName}</Text>
           <Text style={styles.instructions}>{this.state.balanceNow}</Text>
+          <Button title="区块浏览"
+          onPress={ () => {
+            var blockObj = {
+              'category': 'block',
+            };
+            nodejs.channel.send(JSON.stringify(blockObj));
+          }
+
+          }
+          />
+          <Text style={styles.instructions}><Text>区块总数: </Text>{this.state.blockAmount}</Text>
+          <Text style={styles.instructions}><Text>账户总数: </Text>{this.state.accountAmount}</Text>
+          <Text style={styles.instructions}><Text>交易总数: </Text>{this.state.transactionAmount}</Text>
       </View>
     );
   }
