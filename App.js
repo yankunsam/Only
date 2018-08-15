@@ -12,6 +12,7 @@ import nodejs from 'nodejs-mobile-react-native';
 import { TabNavigator } from 'react-navigation';
 import Transfer from './Transfer.js';
 import Setting from './Setting.js';
+import Contract from './Contract.js';
 
 type Props = {};
 
@@ -94,9 +95,10 @@ class HomeScreen extends Component<{}> {
 
 
 export default TabNavigator({
-  Home: { screen: HomeScreen},
-  Transfer: { screen: Transfer },
-  Setting: { screen: Setting },
+  我的: { screen: HomeScreen},
+  转账: { screen: Transfer },
+  设置: { screen: Setting },
+  合约: { screen: Contract },
 });
 
 const styles = StyleSheet.create({

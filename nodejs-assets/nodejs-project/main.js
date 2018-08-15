@@ -3,7 +3,7 @@ var Eos = require('oasisjs')
 var rn_bridge = require('rn-bridge');
 var MongoClient = require('mongodb').MongoClient;
 var fs = require('fs');
-
+var path = require('path');
 let msg_number=0;
 var mongodburl = 'mongodb://124.127.156.41:27017/'
 
@@ -61,7 +61,9 @@ rn_bridge.channel.on('message', (msg) => {
         listVersionsHTTPServer = listVersionsServer.listen(3001);
       break;
     case 'balance':
-      // var wasm = fs.readFileSync(path.join(__dirname, 'package.json'));
+      // TODO: split to a single Tab
+      // var wasm = fs.readFileSync(path.join(__dirname, 'eosio.token.wasm'));
+      // eos.setcode('eosio.token', 0, 0, wasm).then(rel => {console.log(rel)});
       var balancePara = {
         'code': 'eosio.token',
         'account': JSON.parse(msg).account,
@@ -70,6 +72,7 @@ rn_bridge.channel.on('message', (msg) => {
       eos.getCurrencyBalance(balancePara,(error,result) => {
         var rel = {
           balanceNow: result[0],
+          // balanceNow: wasm,
           accountName: JSON.parse(msg).account,
         };
         rn_bridge.channel.send(JSON.stringify(rel));
@@ -116,6 +119,10 @@ rn_bridge.channel.on('message', (msg) => {
         });
 
       })
+      break;
+    case 'contract':
+      var wasm = fs.readFileSync(path.join(__dirname, 'eosio.token.wasm'));
+      eos.setcode(obj.account, 0, 0, wasm).then(rel => {console.log(rel)});
       break;
     default:
       break;
