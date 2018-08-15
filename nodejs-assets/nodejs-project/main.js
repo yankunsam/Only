@@ -11,7 +11,6 @@ let config = {
   chainId: "c40a90d6bcb4b9b2c2d4c0916ee97a29af42a420372af44fa4f538ddef9e6b83", // 32 byte (64 char) hex string
   keyProvider: ['5KZ2ytRsGMxRAycpFqFnkRF8mNfZTomQKnaXzh1FtbRPgbaTAF3'], // WIF string or array of keys..
   httpEndpoint: 'http://124.127.156.41:8888',
-  // httpEndpoint: 'http://192.168.1.212:8888',
   expireInSeconds: 60,
   broadcast: true,
   verbose: false, // API activity
@@ -61,9 +60,6 @@ rn_bridge.channel.on('message', (msg) => {
         listVersionsHTTPServer = listVersionsServer.listen(3001);
       break;
     case 'balance':
-      // TODO: split to a single Tab
-      // var wasm = fs.readFileSync(path.join(__dirname, 'eosio.token.wasm'));
-      // eos.setcode('eosio.token', 0, 0, wasm).then(rel => {console.log(rel)});
       var balancePara = {
         'code': 'eosio.token',
         'account': JSON.parse(msg).account,
@@ -72,7 +68,6 @@ rn_bridge.channel.on('message', (msg) => {
       eos.getCurrencyBalance(balancePara,(error,result) => {
         var rel = {
           balanceNow: result[0],
-          // balanceNow: wasm,
           accountName: JSON.parse(msg).account,
         };
         rn_bridge.channel.send(JSON.stringify(rel));

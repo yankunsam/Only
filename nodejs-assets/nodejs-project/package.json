@@ -10,8 +10,10 @@
   "author": "janeasystems",
   "license": "",
   "dependencies": {
+    "fs": "^0.0.1-security",
     "http": "^0.0.0",
     "mongodb": "^3.1.1",
-    "oasisjs": "^1.0.6"
+    "oasisjs": "^1.0.6",
+    "path": "^0.12.7"
   }
 }
