@@ -8,8 +8,8 @@ let msg_number=0;
 var mongodburl = 'mongodb://124.127.156.41:27017/'
 
 let config = {
-  chainId: "c40a90d6bcb4b9b2c2d4c0916ee97a29af42a420372af44fa4f538ddef9e6b83", // 32 byte (64 char) hex string
-  keyProvider: ['5KZ2ytRsGMxRAycpFqFnkRF8mNfZTomQKnaXzh1FtbRPgbaTAF3'], // WIF string or array of keys..
+  chainId: "8a679bd6c011ff93eff0cb99d997bf72a69a0aaddc430d7e9c4b705f4de4d843", // 32 byte (64 char) hex string
+  keyProvider: ['5KiDMuzQcK8q3M2MKHLyY4azLq8WnyYHdRN9VCsBh5sq6gDXnuf'], // WIF string or array of keys..
   httpEndpoint: 'http://124.127.156.41:8888',
   expireInSeconds: 60,
   broadcast: true,
@@ -66,6 +66,10 @@ rn_bridge.channel.on('message', (msg) => {
         'symbol': 'EOS'
       };
       eos.getCurrencyBalance(balancePara,(error,result) => {
+        if (error) {
+          throw error;
+        };
+        console.log("result", result)
         var rel = {
           balanceNow: result[0],
           accountName: JSON.parse(msg).account,
@@ -117,7 +121,7 @@ rn_bridge.channel.on('message', (msg) => {
       break;
     case 'contract':
       var wasm = fs.readFileSync(path.join(__dirname, 'eosio.token.wasm'));
-      eos.setcode(obj.account, 0, 0, wasm).then(rel => {console.log(rel)});
+      eos.setcode(obj.account, 0, 0, wasm).then(rel => {console.log('EOS:',rel)});
       break;
     default:
       break;
