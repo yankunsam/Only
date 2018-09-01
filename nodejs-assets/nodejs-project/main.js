@@ -5,12 +5,12 @@ var MongoClient = require('mongodb').MongoClient;
 var fs = require('fs');
 var path = require('path');
 let msg_number=0;
-var mongodburl = 'mongodb://124.127.156.41:27017/'
+var mongodburl = 'mongodb://192.168.0.105:27017/'
 
 let config = {
   chainId: "8a679bd6c011ff93eff0cb99d997bf72a69a0aaddc430d7e9c4b705f4de4d843", // 32 byte (64 char) hex string
   keyProvider: ['5KiDMuzQcK8q3M2MKHLyY4azLq8WnyYHdRN9VCsBh5sq6gDXnuf'], // WIF string or array of keys..
-  httpEndpoint: 'http://124.127.156.41:8888',
+  httpEndpoint: 'http://192.168.0.105:8888',
   expireInSeconds: 60,
   broadcast: true,
   verbose: false, // API activity
@@ -70,6 +70,9 @@ rn_bridge.channel.on('message', (msg) => {
           throw error;
         };
         console.log("result", result)
+        if(result.length === 0) {
+          result[0] = '0.0000 EOS';
+        }
         var rel = {
           balanceNow: result[0],
           accountName: JSON.parse(msg).account,
