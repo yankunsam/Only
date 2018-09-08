@@ -20,7 +20,7 @@ type Props = {};
 import image from './img/search.png';
 import search_1 from './img/search_1.png'
 
-class HomeScreen extends Component<{}> {
+export default class HomeScreen extends Component<{}> {
   constructor(props){
     super(props);
     this.state = {
@@ -61,21 +61,30 @@ class HomeScreen extends Component<{}> {
     return (
       <View style={styles.container}>
         <View style={styles.search}>
+        <View style={{flex: 1,alignItems:'flex-end'}}>
+        <TouchableOpacity
+        onPress={()=>{alert('will jump to mainnet status')}}
+        >
+        <Text>mainnet</Text>
+        </TouchableOpacity>
+        </View>
+        <View style={{flex: 6}}>
           <AutoHeightImage
                 width={370}
                 source={image}
           />
+          </View>
         </View>
         <View style={styles.input}>
           <TextInput style={styles.textinput}
-            placeholder="Type here to translate!"
+            placeholder="trx/block/account"
             />
             <TouchableOpacity
-              // style={styles.button}
+              style={styles.searchbutton}
               onPress={()=>{alert("will show you the result")}}
               >
                 <AutoHeightImage
-                      width={100}
+                      width={50}
                       source={search_1}
                 />
             </TouchableOpacity>
@@ -84,7 +93,7 @@ class HomeScreen extends Component<{}> {
         <View style={styles.other}>
           <View style={{flex: 1}} />
           <View style={{flex: 1}} />
-          <View style={{flex: 1}} />
+          <View style={{flex: 2}} />
           <Text style={{flex: 1}}>about us</Text>
         </View>
 
@@ -95,12 +104,12 @@ class HomeScreen extends Component<{}> {
 
 
 
-export default TabNavigator({
-  我的: { screen: HomeScreen},
-  // 转账: { screen: Transfer },
-  // 设置: { screen: Setting },
-  // 合约: { screen: Contract },
-});
+// export default TabNavigator({
+//   我的: { screen: HomeScreen},
+//   // 转账: { screen: Transfer },
+//   // 设置: { screen: Setting },
+//   // 合约: { screen: Contract },
+// });
 
 const styles = StyleSheet.create({
   container: {
@@ -108,27 +117,33 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
     flexDirection: 'column',
-    backgroundColor: '#ABB8c3',
+    backgroundColor: '#ffffff',
   },
   search: {
     width: '100%',
     // height: '100%',
     // resizeMode: 'contain',
-    flex: 1,
-    backgroundColor: 'powderblue'
+    flex: 1.5,
+    backgroundColor: '#ffffff'
   },
   input: {
-    flex: 1,
-    backgroundColor: 'skyblue',
+    flex: 0.5,
+    backgroundColor: '#ffffff',
     flexDirection: 'row'
 
   },
   textinput: {
-    flex: 1,
+    flex: 6,
     backgroundColor: '#ffffff',
     // borderLeftWidth: 4,
     // borderRightWidth: 4,
-    width: '80%'
+    width: '80%',
+    borderColor: 'gray',
+    borderWidth: 4
+  },
+  searchbutton: {
+    flex: 1.25,
+    width: '100%',
   },
   other: {
     flex: 2,
