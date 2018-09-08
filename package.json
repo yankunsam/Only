@@ -10,6 +10,8 @@
     "nodejs-mobile-react-native": "^0.2.1",
     "react": "16.4.1",
     "react-native": "0.56.0",
+    "react-native-auto-height-image": "^1.0.1",
+    "react-native-scalable-image": "^0.4.0",
     "react-navigation": "^2.11.2",
     "uglify-es": "3.2.2"
   },

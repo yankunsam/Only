@@ -7,15 +7,18 @@
  */
 
 import React, {Component} from 'react';
-import {AppState,Platform, StyleSheet, Text, View, Button,TextInput, Alert} from 'react-native';
+import {AppState,Platform, StyleSheet, Text, View, Button,TextInput, Alert, Dimensions, TouchableOpacity} from 'react-native';
+// import Image from 'react-native-scalable-image';
 import nodejs from 'nodejs-mobile-react-native';
 import { TabNavigator } from 'react-navigation';
 import Transfer from './Transfer.js';
 import Setting from './Setting.js';
 import Contract from './Contract.js';
+import AutoHeightImage from 'react-native-auto-height-image';
 
 type Props = {};
-
+import image from './img/search.png';
+import search_1 from './img/search_1.png'
 
 class HomeScreen extends Component<{}> {
   constructor(props){
@@ -57,54 +60,34 @@ class HomeScreen extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
-      <View style={styles.container}>
-        <TextInput style={{height: 40,width: 100}}
-        placeholder="请输入账户名"
-        onChangeText={(account) => this.setState({accountName: account})}
-        />
+        <View style={styles.search}>
+          <AutoHeightImage
+                width={370}
+                source={image}
+          />
         </View>
-        <View style={styles.container}>
-        <Button title="余额查询"
-            onPress={() => {
-              Alert.alert('获取余额,请确认网络是否连接');
-              var balanceObj = {
-                'category': 'balance',
-                'account': this.state.accountName
-              };
-              nodejs.channel.send(JSON.stringify(balanceObj));
-              }
-            }
-          />
+        <View style={styles.input}>
+          <TextInput style={styles.textinput}
+            placeholder="Type here to translate!"
+            />
+            <TouchableOpacity
+              // style={styles.button}
+              onPress={()=>{alert("will show you the result")}}
+              >
+                <AutoHeightImage
+                      width={100}
+                      source={search_1}
+                />
+            </TouchableOpacity>
           </View>
-          <View style={styles.container}>
-          <Text style={styles.instructions}>{this.state.accountName}</Text>
-          </View>
-          <View style={styles.container}>
-          <Text style={styles.instructions}>{this.state.balanceNow}</Text>
-          </View>
-          <View style={styles.container}>
-          <Button title="区块浏览"
-          onPress={ () => {
-            var blockObj = {
-              'category': 'block',
-            };
-            nodejs.channel.send(JSON.stringify(blockObj));
-          }
 
-          }
-          />
-          </View>
-          <View style={styles.container}>
-          </View>
-          <View style={styles.container}>
-          <Text style={styles.instructions}><Text>区块总数: </Text>{this.state.blockAmount}</Text>
-          </View>
-          <View style={styles.container}>
-          <Text style={styles.instructions}><Text>账户总数: </Text>{this.state.accountAmount}</Text>
-          </View>
-          <View style={styles.container}>
-          <Text style={styles.instructions}><Text>交易总数: </Text>{this.state.transactionAmount}</Text>
-          </View>
+        <View style={styles.other}>
+          <View style={{flex: 1}} />
+          <View style={{flex: 1}} />
+          <View style={{flex: 1}} />
+          <Text style={{flex: 1}}>about us</Text>
+        </View>
+
       </View>
     );
   }
@@ -114,17 +97,43 @@ class HomeScreen extends Component<{}> {
 
 export default TabNavigator({
   我的: { screen: HomeScreen},
-  转账: { screen: Transfer },
-  设置: { screen: Setting },
-  合约: { screen: Contract },
+  // 转账: { screen: Transfer },
+  // 设置: { screen: Setting },
+  // 合约: { screen: Contract },
 });
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    flexDirection: 'column',
+    backgroundColor: '#ABB8c3',
+  },
+  search: {
+    width: '100%',
+    // height: '100%',
+    // resizeMode: 'contain',
+    flex: 1,
+    backgroundColor: 'powderblue'
+  },
+  input: {
+    flex: 1,
+    backgroundColor: 'skyblue',
+    flexDirection: 'row'
+
+  },
+  textinput: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    // borderLeftWidth: 4,
+    // borderRightWidth: 4,
+    width: '80%'
+  },
+  other: {
+    flex: 2,
+    backgroundColor: '#ffffff',
+    alignItems: 'flex-start',
   },
   welcome: {
     fontSize: 20,
