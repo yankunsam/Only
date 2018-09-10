@@ -18,9 +18,10 @@ import AutoHeightImage from 'react-native-auto-height-image';
 
 type Props = {};
 import image from './img/search.png';
-import search_1 from './img/search_1.png'
+import search_1 from './img/search_1.png';
+import { createStackNavigator } from 'react-navigation';
 
-export default class HomeScreen extends Component<{}> {
+class HomeScreen extends Component<{}> {
   constructor(props){
     super(props);
     this.state = {
@@ -63,7 +64,10 @@ export default class HomeScreen extends Component<{}> {
         <View style={styles.search}>
         <View style={{flex: 1,alignItems:'flex-end'}}>
         <TouchableOpacity
-        onPress={()=>{alert('will jump to mainnet status')}}
+        onPress={()=>{
+          // alert('will jump to mainnet status')
+          this.props.navigation.navigate('Transfer')
+        }}
         >
         <Text>mainnet</Text>
         </TouchableOpacity>
@@ -81,7 +85,9 @@ export default class HomeScreen extends Component<{}> {
             />
             <TouchableOpacity
               style={styles.searchbutton}
-              onPress={()=>{alert("will show you the result")}}
+              onPress={()=>{
+                alert("will show you the result")
+              }}
               >
                 <AutoHeightImage
                       width={50}
@@ -102,7 +108,21 @@ export default class HomeScreen extends Component<{}> {
   }
 }
 
+const RootStack = createStackNavigator(
+  {
+    Home: HomeScreen,
+    Transfer: Transfer,
+  },
+  {
+    initialRouteName: 'Home',
+  }
+);
 
+export default class App extends React.Component {
+  render() {
+    return <RootStack />;
+  }
+}
 
 // export default TabNavigator({
 //   我的: { screen: HomeScreen},
