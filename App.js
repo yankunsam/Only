@@ -14,6 +14,7 @@ import { TabNavigator } from 'react-navigation';
 import Transfer from './Transfer.js';
 import Setting from './Setting.js';
 import Contract from './Contract.js';
+import MainnetStatus from './MainnetStatus.js';
 import AutoHeightImage from 'react-native-auto-height-image';
 
 type Props = {};
@@ -66,7 +67,7 @@ class HomeScreen extends Component<{}> {
         <TouchableOpacity
         onPress={()=>{
           // alert('will jump to mainnet status')
-          this.props.navigation.navigate('Transfer')
+          this.props.navigation.navigate('MainnetStatus')
         }}
         >
         <Text>mainnet</Text>
@@ -112,6 +113,7 @@ const RootStack = createStackNavigator(
   {
     Home: HomeScreen,
     Transfer: Transfer,
+    MainnetStatus: MainnetStatus,
   },
   {
     initialRouteName: 'Home',
